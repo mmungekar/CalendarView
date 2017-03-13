@@ -12,6 +12,7 @@ import android.widget.TimePicker;
 import android.widget.PopupWindow;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.view.View;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,17 +28,19 @@ public class MainActivity extends ActionBarActivity
 	private int activeButton = 0;
 	private boolean editMode = false;
 	private List<Date> selectedDates;
+	LinearLayout myLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		myLayout = (LinearLayout) findViewById(R.layout.activity_main);
+		setContentView(myLayout);
 
 		HashSet<Date> events = new HashSet<>();
 		events.add(new Date());
 
-		selectedDates = new ArrayList<Dates>();
+		selectedDates = new ArrayList<Date>();
 
 		CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
 		cv.updateCalendar(events);
@@ -46,8 +49,9 @@ public class MainActivity extends ActionBarActivity
 		/**
 		 * Pseudocode for adding buttons based on number of RAs instead of what's hardcoded below
 		 * for(RA: List of RAs){
-		 * Button button = (Button) idk
+		 * Button button = new Button (this);
 		 * button.setText(blah)
+         * myLayout.addView(button, parameters necessary);
 		 * whenClicked(button); (Actually the method name)
 		 * }
 		 *
@@ -69,8 +73,7 @@ public class MainActivity extends ActionBarActivity
 					Button temp = (Button) findViewById(activeButton);
 					cell.setBackgroundColor(((ColorDrawable) temp.getBackground()).getColor());
 					//Will soon implement a better way of adding dates (maybe a set to eliminate duplicates)
-					selectedDates.add(SimpleDateFormat.getDateInstance()
-							.format((Date)view.getItemAtPosition(position)));
+					selectedDates.add((Date)view.getItemAtPosition(position));
 				}
 			}
 		});
@@ -108,10 +111,10 @@ public class MainActivity extends ActionBarActivity
 	 * Once clicked, the popup window prompting a switch/give is initialized
 	 * @param b refers to the button clicked
 	 */
-	private void switchAndGiveMode(Button b){
+	/*private void switchAndGiveMode(Button b){
 		b.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				popUp = new PopupWindow(this);
+				PopupWindow popUp = new PopupWindow(myLayout);
 				popUp.showAtLocation(v, Gravity.CENTER, 0, 0);
 				// popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
 				popUp.update(50, 50, 300, 80);
@@ -119,7 +122,7 @@ public class MainActivity extends ActionBarActivity
 				Button okButton = (Button) findViewById(R.id.okButton);
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						popUpWindow.dismiss();
+						popUp.dismiss();
 					}
 				});
 				//unnecessary TimePicker here
@@ -128,7 +131,7 @@ public class MainActivity extends ActionBarActivity
 				//The shift times are likely coming from the database???
 			}
 		});
-	}
+	} */
 
 
 	@Override

@@ -295,4 +295,7 @@ public class CalendarView extends LinearLayout
 	{
 		void onDayLongPress(Date date);
 	}
+	public GridView getGrid(){
+		return grid;
+	}
 }
